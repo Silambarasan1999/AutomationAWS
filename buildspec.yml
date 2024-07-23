@@ -3,17 +3,21 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 16
+      nodejs: 14
   pre_build:
     commands:
+      - echo "Installing dependencies..."
       - npm install
   build:
     commands:
+      - echo "Creating zip file..."
       - zip -r code.zip.
   post_build:
     commands:
+      - echo "Updating Lambda function..."
       - aws lambda update-function-code --function-name demo --zip-file fileb://code.zip
-      - aws lambda publish-version --function-name demo --description "Automated version"
+      - echo "Publishing new Lambda version..."
+      - aws lambda publish-version --function-name demo --description "Automated version update"
 artifacts:
   files:
     - code.zip
