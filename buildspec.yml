@@ -3,18 +3,20 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 14
+      nodejs: 16
     commands:
       - echo "Checking AWS CLI version..."
       - aws --version
       - echo "Listing directory contents..."
       - ls -al
+      - echo "Installing zip utility..."
+      - yum install -y zip  # For Amazon Linux, use apt-get for Ubuntu, etc.
   build:
     commands:
       - echo "Creating zip file..."
-      - zip -r test.zip. || exit 1  # Exit with status 1 if zip fails
+      - zip -r code.zip . || exit 1  # Ensure you are in the correct directory
       - echo "Verifying zip file..."
-      - ls -al test.zip
+      - ls -al code.zip
   post_build:
     commands:
       - echo "Updating Lambda function..."
@@ -24,6 +26,46 @@ phases:
 artifacts:
   files:
     - code.zip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# version: 0.2
+
+# phases:
+#   install:
+#     runtime-versions:
+#       nodejs: 14
+#     commands:
+#       - echo "Checking AWS CLI version..."
+#       - aws --version
+#       - echo "Listing directory contents..."
+#       - ls -al
+#   build:
+#     commands:
+#       - echo "Creating zip file..."
+#       - zip -r test.zip. || exit 1  # Exit with status 1 if zip fails
+#       - echo "Verifying zip file..."
+#       - ls -al test.zip
+#   post_build:
+#     commands:
+#       - echo "Updating Lambda function..."
+#       - aws lambda update-function-code --function-name demo --zip-file fileb://code.zip
+#       - echo "Publishing new Lambda version..."
+#       - aws lambda publish-version --function-name demo --description "Automated version update"
+# artifacts:
+#   files:
+#     - code.zip
 
 
 
