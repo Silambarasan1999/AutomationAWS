@@ -15,9 +15,9 @@ phases:
   post_build:
     commands:
       - echo "Updating Lambda function..."
-      - aws lambda update-function-code --function-name YOUR_LAMBDA_FUNCTION_NAME --zip-file fileb://code.zip
+      - aws lambda update-function-code --function-name demo --zip-file fileb://code.zip
       - echo "Publishing new Lambda version..."
-      - aws lambda publish-version --function-name YOUR_LAMBDA_FUNCTION_NAME --description "Automated version update"
+      - aws lambda publish-version --function-name demo --description "Automated version update"
 artifacts:
   files:
     - code.zip
