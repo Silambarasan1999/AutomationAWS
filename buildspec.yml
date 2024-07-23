@@ -16,7 +16,7 @@ phases:
   build:
     commands:
       - echo "Creating zip file..."
-      - zip -r code.zip.
+      - zip -r test.zip.
   post_build:
     commands:
       - echo "Updating Lambda function..."
