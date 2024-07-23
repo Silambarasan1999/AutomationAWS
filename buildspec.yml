@@ -3,11 +3,16 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 14
+      nodejs: 16
+      
+    commands:
+      - echo "Installing build tools..."
+      - apt-get update
+      - apt-get install -y build-essential
   pre_build:
     commands:
       - echo "Installing dependencies..."
-      - npm install
+      - npm install --verbose
   build:
     commands:
       - echo "Creating zip file..."
