@@ -3,14 +3,15 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 16
+      nodejs: 14
     commands:
       - echo "Checking AWS CLI version..."
       - aws --version
       - echo "Listing directory contents..."
       - ls -al
       - echo "Installing zip utility..."
-      - yum install -y zip  # For Amazon Linux, use apt-get for Ubuntu, etc.
+      # Determine package manager and install zip
+      - if command -v yum >/dev/null 2>&1; then yum install -y zip; elif command -v apt-get >/dev/null 2>&1; then apt-get update && apt-get install -y zip; else echo "No supported package manager found. Install zip manually."; fi
   build:
     commands:
       - echo "Creating zip file..."
@@ -26,6 +27,7 @@ phases:
 artifacts:
   files:
     - code.zip
+
 
 
 
