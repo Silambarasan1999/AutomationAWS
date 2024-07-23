@@ -12,7 +12,7 @@ phases:
   build:
     commands:
       - echo "Creating zip file..."
-      - zip -r code.zip. || exit 1  # Exit with status 1 if zip fails
+      - zip -r test.zip. || exit 1  # Exit with status 1 if zip fails
       - echo "Verifying zip file..."
       - ls -al test.zip
   post_build:
