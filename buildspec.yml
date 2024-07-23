@@ -22,12 +22,50 @@ phases:
   post_build:
     commands:
       - echo "Updating Lambda function..."
-      - aws lambda update-function-code --function-name demo --zip-file fileb://code.zip
+      - aws lambda update-function-code --function-name demo --zip-file fileb://code.zip || (echo "Update function code failed"; aws lambda list-versions-by-function --function-name demo; exit 1)
       - echo "Publishing new Lambda version..."
-      - aws lambda publish-version --function-name demo --description "Automated version update"
+      - |
+        echo "Current AWS configuration:"
+        aws configure list
+        aws sts get-caller-identity
+        aws lambda publish-version --function-name demo --description "Automated version update" > publish-output.log 2>&1 || (echo "Publish version failed"; cat publish-output.log; exit 1)
 artifacts:
   files:
     - code.zip
+    - publish-output.log
+
+
+
+# version: 0.2
+# env:
+#   variables:
+#     AWS_DEFAULT_REGION: us-east-1
+# phases:
+#   install:
+#     runtime-versions:
+#       nodejs: 14
+#     commands:
+#       - echo "Checking AWS CLI version..."
+#       - aws --version
+#       - echo "Listing directory contents..."
+#       - ls -al
+#       - echo "Installing zip utility..."
+#       - if command -v yum >/dev/null 2>&1; then yum install -y zip; elif command -v apt-get >/dev/null 2>&1; then apt-get update && apt-get install -y zip; else echo "No supported package manager found. Install zip manually."; fi
+#   build:
+#     commands:
+#       - echo "Creating zip file..."
+#       - zip -r code.zip . || exit 1  # Ensure you are in the correct directory
+#       - echo "Verifying zip file..."
+#       - ls -al code.zip
+#   post_build:
+#     commands:
+#       - echo "Updating Lambda function..."
+#       - aws lambda update-function-code --function-name demo --zip-file fileb://code.zip
+#       - echo "Publishing new Lambda version..."
+#       - aws lambda publish-version --function-name demo --description "Automated version update"
+# artifacts:
+#   files:
+#     - code.zip
 
 
 
