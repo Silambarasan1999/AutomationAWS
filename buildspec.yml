@@ -1,22 +1,37 @@
 version: 0.2
 
+env:
+  variables:
+    AWS_DEFAULT_REGION: us-east-1
+    # Consider using environment variables set in the CodeBuild project settings for credentials
+    # AWS_ACCESS_KEY_ID: <Your AWS Access Key ID>
+    # AWS_SECRET_ACCESS_KEY: <Your AWS Secret Access Key>
+
 phases:
   install:
     runtime-versions:
-      nodejs: 14
+      nodejs: 16
     commands:
-      - echo "Installing zip utility..."
-      - apt-get update && apt-get install -y zip
+      - echo "Installing zip and awscli utilities..."
+      - apt-get update && apt-get install -y zip awscli
   build:
     commands:
       - echo "Listing directory contents..."
       - ls -al
       - echo "Creating zip file..."
       - zip -r code.zip .
+      - echo "Verifying zip file..."
+      - ls -al code.zip
   post_build:
     commands:
+      - echo "AWS CLI version:"
+      - aws --version
+      - echo "Listing environment variables..."
+      - env
       - echo "Updating Lambda function..."
       - aws lambda update-function-code --function-name demo --zip-file fileb://code.zip
+      - echo "Verifying Lambda update..."
+      - aws lambda get-function --function-name demo
       - echo "Publishing new Lambda version..."
       - aws lambda publish-version --function-name demo --description "Automated version update"
 artifacts:
