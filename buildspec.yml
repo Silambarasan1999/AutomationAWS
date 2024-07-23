@@ -14,7 +14,7 @@ phases:
       - echo "Creating zip file..."
       - zip -r code.zip. || exit 1  # Exit with status 1 if zip fails
       - echo "Verifying zip file..."
-      - ls -al code.zip
+      - ls -al test.zip
   post_build:
     commands:
       - echo "Updating Lambda function..."
