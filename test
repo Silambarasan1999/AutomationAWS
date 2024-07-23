@@ -2,7 +2,7 @@ export const handler = async (event) => {
   // TODO implement
   const response = {
     statusCode: 200,
-    body: JSON.stringify('Hello from silambu demo I'm my lambda Lambda to get success from AutomationAWS git repo one test!'),
+    body: JSON.stringify('Hello from silambu demo I'm my lambda Lambda to get success from AutomationAWS git repo two test!'),
   };
   return response;
 };
