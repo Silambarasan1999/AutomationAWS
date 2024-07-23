@@ -9,10 +9,10 @@ phases:
       - echo "Installing build tools..."
       - apt-get update
       - apt-get install -y build-essential
-  pre_build:
-    commands:
-      - echo "Installing dependencies..."
-      - npm install --verbose
+  # pre_build:
+    #commands:
+     # - echo "Installing dependencies..."
+      #- npm install --verbose
   build:
     commands:
       - echo "Creating zip file..."
